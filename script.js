@@ -9,7 +9,7 @@ const map = new mapgl.Map('container', {
     key: apiKeys.main,
     style: 'c080bb6a-8134-4993-93a1-5b4d8c36a59b'
 });
-
+const ruler = new mapgl.Ruler(map, { enable: true });
 let markerList = []
 
 const destinationInput = document.getElementById("destination")
@@ -72,6 +72,17 @@ window.onload = function() {
                 destin = destin.replace(id + ",", "")
         }
     })
+
+    const controlsHtml = `<button id="reset" class="image-button">Reset points</button> `;
+    new mapgl.Control(map, controlsHtml, {
+        position: 'topRight',
+    });
+
+    const resetButton = document.getElementById('reset');
+    resetButton.addEventListener('click', function() {
+        ruler.destroy();
+        ruler.enable();
+    });
 }
 
 

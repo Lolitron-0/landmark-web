@@ -9,7 +9,6 @@ const map = new mapgl.Map('container', {
     key: apiKeys.main,
     style: 'c080bb6a-8134-4993-93a1-5b4d8c36a59b'
 });
-const ruler = new mapgl.Ruler(map, { enable: true });
 let markerList = []
 
 const destinationInput = document.getElementById("destination")
@@ -41,9 +40,10 @@ let finishMarker;
 const statusT = document.querySelector('#status');
 const buttonIds = ['interesting_places', "architecture", "natural", "industrial_facilities", "religion", "natural", "cultural", "historic"]
 let destin = ""
+
+
+const slider = document.getElementById("customRange3")
     //=======================================================
-
-
 window.onload = function() {
     map.on('click', function(e) {
         if (finishMarker) finishMarker.destroy()
@@ -73,23 +73,14 @@ window.onload = function() {
         }
     })
 
-    const controlsHtml = `<button id="reset" class="image-button">Reset points</button> `;
-    new mapgl.Control(map, controlsHtml, {
-        position: 'topRight',
-    });
 
-    const resetButton = document.getElementById('reset');
-    resetButton.addEventListener('click', function() {
-        ruler.destroy();
-        ruler.enable();
-    });
 }
 
 
 
 
-const directions = new mapgl.Directions(map, {
-    directionsApiKey: '4babad42-5fba-49ea-8022-b4b5d42514d7',
+let directions = new mapgl.Directions(map, {
+    directionsApiKey: apiKeys.main,
 });
 
 document.getElementById("findRouteBtn").onclick = function(e) {
@@ -100,5 +91,25 @@ document.getElementById("findRouteBtn").onclick = function(e) {
     } else {
         showToast("Выберите пункт назначения")
     }
+}
 
+document.getElementById("clearRoute").onclick = function(e) {
+    destroySightMarkers();
+    directions.clear()
+    route = []
+}
+
+document.getElementById("arrow-button").onclick = function(e) {
+    const hideArea = document.getElementById("hide")
+    if (hideArea.style.display == "inherit") {
+        hideArea.style.display = "none"
+        document.getElementById("arrow-button").style.transform = "rotateZ(0deg)"
+    } else {
+        hideArea.style.display = "inherit"
+        document.getElementById("arrow-button").style.transform = "rotateZ(180deg)"
+    }
+}
+
+slider.oninput = function (){
+    document.getElementById("sliderLabel").innerHTML = "Допустимое отклонение: "+slider.value + "м"
 }

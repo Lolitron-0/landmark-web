@@ -126,10 +126,10 @@ let route = [];
 function findRoutePoints(start, finish) {
   let centrCoords = [(start[0] + finish[0]) / 2, (start[1] + finish[1]) / 2];
   let requestString =
-    "https://api.opentripmap.com/0.1/ru/places/radius?radius={RADIUS}&{COORDS}&{KIND}&rate=3&format=json&limit=200&apikey=5ae2e3f221c38a28845f05b69276174a1cdb303095e66db6574e28b6";
+    "https://api.opentripmap.com/0.1/ru/places/radius?radius={RADIUS}&{COORDS}&kinds=interesting_places&rate=3&format=json&limit=200&apikey=5ae2e3f221c38a28845f05b69276174a1cdb303095e66db6574e28b6";
   requestString = requestString
     .replace("{COORDS}", "lon=" + centrCoords[0] + "&lat=" + centrCoords[1])
-    .replace("{KIND}", "kinds="+destin.slice(0, -1))
+    .replace("kinds=interesting_places", "kinds="+destin.slice(0, -1))
     //.replace("{RADIUS}", Math.round(radius))
     .replace("{RADIUS}", distanceBetweenPointsInMeters(start, finish) / 2);
   //let requestString = "https://api.opentripmap.com/0.1/ru/places/bbox?{RECT}&{KIND}&rate=3&format=json&apikey=5ae2e3f221c38a28845f05b69276174a1cdb303095e66db6574e28b6";
